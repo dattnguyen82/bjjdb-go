@@ -17,6 +17,8 @@ const (
 func main() {
 	log.Println("Starting bjjdb...")
 	router := mux.NewRouter().StrictSlash(true)
+
+	router.HandleFunc("/", hello).Methods("GET")
 	router.HandleFunc("/api/v1/competitors", getCompetitors).Methods("GET")
 	log.Println("Listening and serving...")
 	err := http.ListenAndServe(":"+os.Getenv("PORT"), router)
@@ -25,6 +27,12 @@ func main() {
 
 }
 
+
+func hello(w http.ResponseWriter, req *http.Request) {
+
+	fmt.Fprintln(w, "BJJ Competitors")
+
+}
 
 func getCompetitors(w http.ResponseWriter, req *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
